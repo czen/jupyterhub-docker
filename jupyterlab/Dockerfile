@@ -1,4 +1,4 @@
-FROM jupyter/scipy-notebook:137a295ff71b
+FROM jupyter/scipy-notebook:66c99628f4b8 
 
 LABEL maintainer="Luca De Feo <https://defeo.lu/>"
 
