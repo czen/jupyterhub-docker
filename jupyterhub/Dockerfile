@@ -6,4 +6,6 @@ RUN wget https://raw.githubusercontent.com/jupyterhub/jupyterhub/1.0.0/examples/
 
 RUN pip install \
     dockerspawner==0.10.0 \
-    jhub_cas_authenticator==1.0.0
+    jhub_cas_authenticator==1.0.0 \
+    oauthenticator
+    

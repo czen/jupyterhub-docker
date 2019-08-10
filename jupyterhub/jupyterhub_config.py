@@ -8,8 +8,8 @@ c.Spawner.default_url = '/lab'
 #from jhub_cas_authenticator.cas_auth import CASAuthenticator
 #c.JupyterHub.authenticator_class = CASAuthenticator
 ## Configure authentication (delagated to GitLab)
-#from oauthenticator.gitlab import GitLabOAuthenticator
-#c.JupyterHub.authenticator_class = GitLabOAuthenticator
+from oauthenticator.gitlab import GitLabOAuthenticator
+c.JupyterHub.authenticator_class = GitLabOAuthenticator
 
 # The CAS URLs to redirect (un)authenticated users to.
 #c.CASAuthenticator.cas_login_url = 'https://cas.uvsq.fr/login'
