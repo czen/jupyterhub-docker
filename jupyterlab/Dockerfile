@@ -80,3 +80,25 @@ USER $NB_UID
 
 # Add conda env hook
 COPY ./conda-activate.sh /usr/local/bin/before-notebook.d/
+
+USER root
+
+RUN jupyter labextension install @jupyterlab/git
+RUN pip install --upgrade jupyterlab-git
+RUN jupyter serverextension enable --py jupyterlab_git
+
+RUN wget https://bootstrap.pypa.io/get-pip.py
+
+RUN python3 get-pip.py
+
+USER $NB_UID
+
+RUN cd /home/$NB_USER && python3 -m pip install virtualenv && \
+    mkdir kernels && cd kernels && mkdir python3 && cd python3 && python3 -m virtualenv .
+
+RUN /bin/bash -c "source /home/$NB_USER/kernels/python3/bin/activate" && python -m pip install ipykernel
+
+USER root
+
+RUN /bin/bash -c "source /home/$NB_USER/kernels/python3/bin/activate" && python -m ipykernel install --prefix=/opt/conda --name 'pentane-python-3' && python -m pip install -r /home/$NB_USER/work/PENTANE/server_requirements_py3.txt
+
