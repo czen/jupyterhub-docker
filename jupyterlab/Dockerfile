@@ -17,6 +17,9 @@ RUN apt-get update && \
     sagemath \
     sagemath-jupyter \
     libgmp-dev \
+    git \
+    openssh-client \
+    ssh \
     && apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
@@ -57,6 +60,18 @@ RUN pip install \
 #    PySingular jupyter_kernel_singular \
     scilab-kernel && \
     fix-permissions $CONDA_DIR
+
+USER $NB_UID
+
+COPY ./keys/id_rsa.pub ./keys/id_rsa /home/$NB_USER/.ssh/
+
+USER root
+
+RUN echo "Host gitlab.mmcs.sfedu.ru\n\t\tStrictHostKeyChecking no\n" >> /home/$NB_USER/.ssh/config
+
+USER $NB_UID
+
+RUN cd /home/$NB_USER/work && git clone git@gitlab.mmcs.sfedu.ru:pentane/PENTANE.git
 
 # Fix SageMath kernel
 USER root

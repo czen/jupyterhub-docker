@@ -10,6 +10,7 @@ c.Spawner.default_url = '/lab'
 ## Configure authentication (delagated to GitLab)
 from oauthenticator.gitlab import GitLabOAuthenticator
 c.JupyterHub.authenticator_class = GitLabOAuthenticator
+c.Authenticator.admin_users=['czen']
 
 # The CAS URLs to redirect (un)authenticated users to.
 #c.CASAuthenticator.cas_login_url = 'https://cas.uvsq.fr/login'
@@ -33,12 +34,17 @@ c.JupyterHub.hub_ip = os.environ['HUB_IP']
 
 # user data persistence
 # see https://github.com/jupyterhub/dockerspawner#data-persistence-and-dockerspawner
-notebook_dir = os.environ.get('DOCKER_NOTEBOOK_DIR') or '/home/jovyan'
-c.DockerSpawner.notebook_dir = notebook_dir
-c.DockerSpawner.volumes = { 'jupyterhub-user-{username}': notebook_dir }
+notebook_dir = os.environ.get('DOCKER_NOTEBOOK_DIR') or '/home/jovyan/work'
+jupyter_workdir = '/home/jovyan'
+pentane_db_dir = os.environ.get('DOCKER_DATABASE_DIR') or '/home/jovyan/data'
+c.DockerSpawner.notebook_dir = jupyter_workdir
+c.DockerSpawner.volumes = { 
+    'jupyterhub-user-{username}': notebook_dir,
+    '/home/abagly/pentane_database': pentane_db_dir
+    }
 
 # Other stuff
-c.Spawner.cpu_limit = 1
+c.Spawner.cpu_limit = 2
 c.Spawner.mem_limit = '10G'
 
 
