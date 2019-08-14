@@ -102,3 +102,15 @@ USER root
 
 RUN /bin/bash -c "source /home/$NB_USER/kernels/python3/bin/activate" && python -m ipykernel install --prefix=/opt/conda --name 'pentane-python-3' && python -m pip install -r /home/$NB_USER/work/PENTANE/server_requirements_py3.txt
 
+RUN jupyter lab build
+
+USER root
+
+RUN apt-get update && apt-get install -y octave gnuplot ghostscript
+
+USER $NB_UID
+RUN  pip install octave_kernel && python -m octave_kernel install --prefix=/opt/conda --name 'octave'
+
+#RUN python -m octave_kernel install
+
+USER $NB_UID
