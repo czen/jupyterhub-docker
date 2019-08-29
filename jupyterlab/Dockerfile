@@ -100,6 +100,7 @@ RUN /bin/bash -c "source /home/$NB_USER/kernels/python3/bin/activate" && python 
 
 USER root
 
+# TODO: fix installing kernel, source ../bin/activate doesn't work here, ends up installing /opt/conda/bin/python instead
 RUN /bin/bash -c "source /home/$NB_USER/kernels/python3/bin/activate" && python -m ipykernel install --prefix=/opt/conda --name 'pentane-python-3' && python -m pip install -r /home/$NB_USER/work/PENTANE/server_requirements_py3.txt
 
 RUN jupyter lab build
